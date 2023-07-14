@@ -1,0 +1,3 @@
+[submodule "cuvis.cpp"]
+	path = cuvis.cpp
+	url = https://github.com/cubert-hyperspectral/cuvis.cpp.git
