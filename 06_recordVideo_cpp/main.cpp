@@ -185,6 +185,9 @@ int main(int argc, char* argv[])
       std::this_thread::sleep_for(std::chrono::milliseconds(1));
     } while (0 != keepRunning);
 
+    // maybe we're already cancelling
+    if (keepRunning == 0)
+        continue;
     auto workerContainer = worker.get_next_result();
     if (workerContainer.mesu.has_value())
     {
