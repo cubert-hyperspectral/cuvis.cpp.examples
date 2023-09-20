@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.20.0)
-project(Example_06)
+cmake_minimum_required(VERSION 3.16.0)
+project(06_recordVideo_cpp)
 list(APPEND CMAKE_MODULE_PATH
   "${CMAKE_CURRENT_LIST_DIR}/../cuvis.cpp/")
 find_package(CuvisCpp 3.2 REQUIRED)
-add_executable(Example_06 main.cpp)
-target_link_libraries(Example_06 PRIVATE cuvis::cpp)
+add_executable(06_recordVideo_cpp main.cpp)
+target_link_libraries(06_recordVideo_cpp PRIVATE cuvis::cpp)
