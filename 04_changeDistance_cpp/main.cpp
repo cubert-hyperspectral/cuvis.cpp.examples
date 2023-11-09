@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
   std::cout << "Example 04 change distance cpp " << std::endl;
   std::cout << "User Settings Dir: " << userSettingsDir << std::endl;
   std::cout << "sessionfile (.cu3s): " << sessionLoc << std::endl;
-  std::cout << "New Distance: " << distance << std::endl;
+  std::cout << "New Distance: " << distance << "mm"<< std::endl;
   std::cout << "Export Dir: " << exportDir << std::endl;
 
   std::cout << "loading settings... " << std::endl;
