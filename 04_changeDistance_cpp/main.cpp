@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
     std::cout << std::endl << "Too few Arguments! Please provide:" << std::endl;
     std::cout << "user settings directory" << std::endl;
     std::cout << "sessionfile (.cu3s)" << std::endl;
-    std::cout << "new distance [mm]" << std::endl;
+    std::cout << "new distance in mm" << std::endl;
     std::cout << "Name of export directory" << std::endl;
 
     return -1;
