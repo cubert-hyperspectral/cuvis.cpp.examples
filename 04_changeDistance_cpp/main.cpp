@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
     std::cout << std::endl << "Too few Arguments! Please provide:" << std::endl;
     std::cout << "user settings directory" << std::endl;
     std::cout << "sessionfile (.cu3s)" << std::endl;
-    std::cout << "new distance" << std::endl;
+    std::cout << "new distance in mm" << std::endl;
     std::cout << "Name of export directory" << std::endl;
 
     return -1;
@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
   std::cout << "Example 04 change distance cpp " << std::endl;
   std::cout << "User Settings Dir: " << userSettingsDir << std::endl;
   std::cout << "sessionfile (.cu3s): " << sessionLoc << std::endl;
-  std::cout << "New Distance: " << distance << std::endl;
+  std::cout << "New Distance in mm: " << distance << std::endl;
   std::cout << "Export Dir: " << exportDir << std::endl;
 
   std::cout << "loading settings... " << std::endl;
