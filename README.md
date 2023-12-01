@@ -10,7 +10,7 @@ To get the exampels running, first set up a project directory, clone this git re
 git submodule update --init
 ```
 
-Then, you need to install the Cuvis C SDK (see [here](https://cloud.cubert-gmbh.de/index.php/s/kKVtx0x2fmYqVgx)), as explained for the C++ wrapper [here](https://github.com/cubert-hyperspectral/cuvis.cpp).
+Then, you need to install the Cuvis C SDK (see [here](https://cloud.cubert-gmbh.de/index.php/s/m1WfR66TjcGl96z)), as explained for the C++ wrapper [here](https://github.com/cubert-hyperspectral/cuvis.cpp).
 
 Then use CMake (see https://cmake.org/download/) to configure and generate the Visual Studio project. You can configure either base directory (including all directoreis) or a single example using its respective directory.
 CMake will require you to locate the Cuvis C SDK (this should be found automatically, if the Cuvis C SDK is properly installed). 
