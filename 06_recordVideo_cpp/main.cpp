@@ -144,7 +144,6 @@ int main(int argc, char* argv[])
 
   std::cout << "configuring worker..." << std::endl;
   cuvis::WorkerArgs worker_settings;
-  worker_settings.keep_out_of_sequence = 0;
   worker_settings.poll_interval = std::chrono::milliseconds(10);
   worker_settings.worker_count =
       0; // =0 automatically sets the worker to the systems number of V-Cores
