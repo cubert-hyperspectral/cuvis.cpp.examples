@@ -167,7 +167,7 @@ int main(int argc, char* argv[])
   using std::chrono::high_resolution_clock;
   using std::chrono::milliseconds;
   auto t1 = high_resolution_clock::now();
-  std::vector<int> frametimes;
+  std::vector<long long> frametimes;
   int fpsAveraging = 200;
 
   std::cout << "recording...! " << std::endl;
@@ -204,7 +204,7 @@ int main(int argc, char* argv[])
         frametimes.erase(frametimes.begin());
       }
       frametimes.push_back(ms_int.count());
-      int totalFrametime = 0;
+      long long totalFrametime = 0;
       for (int i = 0; i < frametimes.size(); i++)
       {
         totalFrametime += frametimes[i];
