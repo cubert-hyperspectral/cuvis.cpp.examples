@@ -146,7 +146,6 @@ int main(int argc, char* argv[])
 
   std::cout << "configuring worker..." << std::endl;
   cuvis::WorkerArgs worker_settings;
-  worker_settings.keep_out_of_sequence = 0;
   worker_settings.poll_interval = std::chrono::milliseconds(10);
   worker_settings.worker_count =
       0; // =0 automatically sets the worker to the systems number of V-Cores
@@ -168,7 +167,7 @@ int main(int argc, char* argv[])
   using std::chrono::high_resolution_clock;
   using std::chrono::milliseconds;
   auto t1 = high_resolution_clock::now();
-  std::vector<int> frametimes;
+  std::vector<long long> frametimes;
   int fpsAveraging = 200;
 
   std::cout << "recording...! " << std::endl;
@@ -205,7 +204,7 @@ int main(int argc, char* argv[])
         frametimes.erase(frametimes.begin());
       }
       frametimes.push_back(ms_int.count());
-      int totalFrametime = 0;
+      long long totalFrametime = 0;
       for (int i = 0; i < frametimes.size(); i++)
       {
         totalFrametime += frametimes[i];
