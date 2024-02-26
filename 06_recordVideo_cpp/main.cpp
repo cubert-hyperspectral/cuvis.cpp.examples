@@ -159,7 +159,6 @@ int main(int argc, char* argv[])
   //comment out the following line to prevent saving to disk
   worker.set_exporter(&exporter);
 
-  std::cout << "configuring FPS Analysis Stuff" << std::endl;
   using std::chrono::duration;
   using std::chrono::duration_cast;
   using std::chrono::high_resolution_clock;
@@ -190,45 +189,9 @@ int main(int argc, char* argv[])
     auto workerContainer = worker.get_next_result();
     if (workerContainer.mesu.has_value())
     {
-      auto t2 = t1;
-      t1 = high_resolution_clock::now();
-
       std::cout
-          << "current handle index: "
-          << workerContainer.mesu.value().get_meta()->session_info.sequence_no
+          << "mesu available!"
           << std::endl;
-
-      auto ms_int = duration_cast<milliseconds>(t1 - t2);
-
-      if (frametimes.size() >= fpsAveraging)
-      {
-        frametimes.erase(frametimes.begin());
-      }
-      frametimes.push_back(ms_int.count());
-      long long totalFrametime = 0;
-      for (int i = 0; i < frametimes.size(); i++)
-      {
-        totalFrametime += frametimes[i];
-      }
-      double actualFps =
-          1 / (((double)totalFrametime / (double)frametimes.size()) / 1000);
-      if (abs(actualFps - fps) > 0.5 &&
-          frametimes.size() ==
-              fpsAveraging) //fps is significantly different from user setting and averaging vector is full
-      {
-        std::cout << "WARNING: FPS was set to " << fps
-                  << " but on average we only get " << actualFps << std::endl;
-      }
-      if (worker.get_queue_limits().second == worker.get_queue_used())
-      {
-        std::cout << "worker queue is full! Main() loop can not keep up!"
-                  << std::endl;
-      }
-      if (acq.get_queue_size() == acq.get_queue_used())
-      {
-        std::cout << "Acquisition queue is full! Worker can not keep up!"
-                  << std::endl;
-      }
     }
   }
 
