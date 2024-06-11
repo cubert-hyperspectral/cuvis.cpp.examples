@@ -101,5 +101,6 @@ int main(int argc, char* argv[])
   }
   */
 
+  cuvis::General::shutdown();
   std::cout << "finished." << std::endl;
 }

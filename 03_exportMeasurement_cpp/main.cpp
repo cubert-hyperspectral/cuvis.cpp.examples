@@ -104,5 +104,6 @@ int main(int argc, char* argv[])
     cuvis::CubeExporter exporter(saveArgs);
     exporter.apply(mesu);
   }
+  cuvis::General::shutdown();
   std::cout << "finished." << std::endl;
 }

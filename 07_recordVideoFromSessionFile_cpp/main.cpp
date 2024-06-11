@@ -236,5 +236,6 @@ int main(int argc, char* argv[])
   acq.set_continuous(false);
   acq.reset_state_change_callback();
   cuvis::General::reset_log_callback();
+  cuvis::General::shutdown();
   std::cout << std::endl << "finished." << std::endl;
 }

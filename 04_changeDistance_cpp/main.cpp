@@ -67,5 +67,6 @@ int main(int argc, char* argv[])
   proc.apply(mesu);
   std::cout << "saving..." << std::endl;
   exporter.apply(mesu);
+  cuvis::General::shutdown();
   std::cout << "finished." << std::endl;
 }

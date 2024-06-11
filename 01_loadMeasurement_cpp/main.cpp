@@ -92,5 +92,6 @@ int main(int argc, char* argv[])
 
     std::cout << lambda << "; " << value << std::endl;
   }
+  cuvis::General::shutdown();
   std::cout << "finished. " << std::endl;
 }
