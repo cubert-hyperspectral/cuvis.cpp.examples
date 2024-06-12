@@ -236,6 +236,7 @@ int main(int argc, char* argv[])
   std::cout << "acquisition stopped." << std::endl;
   acq.set_continuous(false);
   acq.reset_state_change_callback();
+  cuvis::General::shutdown();
   cuvis::General::reset_log_callback();
   std::cout << std::endl << "finished." << std::endl;
 }

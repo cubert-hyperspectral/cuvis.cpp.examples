@@ -104,5 +104,6 @@ int main(int argc, char* argv[])
       std::cout << "cannot process to mode " << mode.first << std::endl;
     }
   }
+  cuvis::General::shutdown();
   std::cout << "finished." << std::endl;
 }
