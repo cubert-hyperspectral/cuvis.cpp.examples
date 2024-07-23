@@ -7,6 +7,8 @@
 #include <ctime>
 #include <iostream>
 
+using namespace std::literals::chrono_literals;
+
 int keepRunning = 1;
 
 void signal_handler(int sig)
@@ -146,12 +148,13 @@ int main(int argc, char* argv[])
 
   std::cout << "configuring worker..." << std::endl;
   cuvis::WorkerArgs worker_settings;
-  worker_settings.poll_interval = std::chrono::milliseconds(10);
-  worker_settings.worker_count =
-      0; // =0 automatically sets the worker to the systems number of V-Cores
-  worker_settings.worker_queue_hard_limit = 10;
-  worker_settings.worker_queue_soft_limit = 10;
-  worker_settings.can_drop = 1;
+  worker_settings.can_skip_measurements = false;       // Worker cannot skip exporting measurements
+  worker_settings.can_skip_supplementary_steps = true; // Worker can skip view generation
+  worker_settings.can_drop_results = true;             // Worker can drop results from the output queue, if it is full
+  worker_settings.input_queue_size = 10;
+  worker_settings.output_queue_size = 5;
+  worker_settings.mandatory_queue_size = 2;
+  worker_settings.supplementary_queue_size = 2;
   cuvis::Worker worker(worker_settings);
   worker.set_acq_cont(&acq);
 
@@ -171,22 +174,11 @@ int main(int argc, char* argv[])
   int fpsAveraging = 200;
 
   std::cout << "recording...! " << std::endl;
+  worker.start_processing();
 
   while (keepRunning)
   {
-    CUVIS_INT hasNext = 0;
-    do
-    {
-      hasNext = worker.has_next_result();
-
-      if (hasNext != 0)
-      {
-        break;
-      }
-      std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    } while (0 != keepRunning);
-
-    auto workerContainer = worker.get_next_result();
+    auto workerContainer = worker.get_next_result(100ms);
     if (workerContainer.mesu.has_value())
     {
       auto t2 = t1;
@@ -218,7 +210,7 @@ int main(int argc, char* argv[])
         std::cout << "WARNING: FPS was set to " << fps
                   << " but on average we only get " << actualFps << std::endl;
       }
-      if (worker.get_queue_limits().second == worker.get_queue_used())
+      if (worker.get_threads_busy() == 4)
       {
         std::cout << "worker queue is full! Main() loop can not keep up!"
                   << std::endl;
@@ -234,6 +226,8 @@ int main(int argc, char* argv[])
   signal(SIGINT, SIG_DFL);
   std::cout << "acquisition stopped." << std::endl;
   acq.set_continuous(false);
+  worker.stop_processing();
+  worker.drop_all_queued();
   acq.reset_state_change_callback();
   cuvis::General::reset_log_callback();
   cuvis::General::shutdown();
