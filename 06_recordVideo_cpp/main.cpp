@@ -6,8 +6,10 @@
 #include <csignal>
 #include <ctime>
 #include <iostream>
+#include <filesystem>
 
 using namespace std::literals::chrono_literals;
+namespace fs = std::filesystem;
 
 int keepRunning = 1;
 
@@ -25,7 +27,7 @@ int main(int argc, char* argv[])
   if (argc != 7)
   {
     std::cout << std::endl << "Too few Arguments! Please provide:" << std::endl;
-    std::cout << "user settings directory" << std::endl;
+    std::cout << "user settings directory  or .cu3c file" << std::endl;
     std::cout << "factory directory" << std::endl;
     std::cout << "name of recording directory" << std::endl;
     std::cout << "exposure time in ms" << std::endl;
@@ -36,7 +38,7 @@ int main(int argc, char* argv[])
   }
 
   char* userSettingsDir = argv[1];
-  char* factoryDir = argv[2];
+  fs::path factoryDir(argv[2]);
   char* recDir = argv[3];
   char* exposureString = argv[4];
   char* autoExpString = argv[5];
@@ -48,7 +50,7 @@ int main(int argc, char* argv[])
 
   std::cout << "Example 06 video cpp " << std::endl;
   std::cout << "User Settings Dir: " << userSettingsDir << std::endl;
-  std::cout << "Factory Dir: " << factoryDir << std::endl;
+  std::cout << "Factory Dir or .cu3c file: " << factoryDir.string() << std::endl;
   std::cout << "Recording Dir: " << recDir << std::endl;
   std::cout << "Exposure in ms: " << exposure_ms << std::endl;
   std::cout << "Auto Exposure: " << autoExp << std::endl;
@@ -72,7 +74,23 @@ int main(int argc, char* argv[])
       loglevel_info);
 
   std::cout << "loading calibration..." << std::endl;
-  cuvis::Calibration calib(factoryDir);
+  const auto  get_calib = [factoryDir]()
+      {
+          if (fs::is_directory(factoryDir))
+          {
+              return  cuvis::Calibration(factoryDir);
+          }
+          else if (fs::is_regular_file(factoryDir) && factoryDir.extension() == ".cu3c") {
+              std::cout << " using .cu3c file as calibration instead of factory dir..." << std::endl;
+              cuvis::SessionFile calibFile(factoryDir);
+              return cuvis::Calibration(calibFile);
+          }
+          else {
+              throw std::exception("Unrecognized file format.");
+          }
+      };
+
+  cuvis::Calibration calib = get_calib();
 
   std::cout << "loading acquisition context..." << std::endl;
   cuvis::AcquisitionContext acq(calib);
@@ -129,7 +147,7 @@ int main(int argc, char* argv[])
   while (acq.get_state() == hardware_state_offline)
   {
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    std::cout << ".";
+    std::cout << "Waiting for camera to come online ..." << std::endl;
   }
   std::cout << std::endl;
 
