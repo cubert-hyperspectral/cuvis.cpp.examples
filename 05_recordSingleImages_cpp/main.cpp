@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
         return cuvis::Calibration(calibFile);
       }
       else {
-        throw std::exception("Unrecognized file format.");
+        throw std::invalid_argument("Unrecognized file format.");
       }
     };
 
