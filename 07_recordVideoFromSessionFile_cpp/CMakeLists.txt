@@ -3,5 +3,13 @@ project(07_recordVideoFromSessionFile_cpp)
 list(APPEND CMAKE_MODULE_PATH
   "${CMAKE_CURRENT_LIST_DIR}/../cuvis.cpp/")
 find_package(CuvisCpp 3.2 REQUIRED)
+if (UNIX)
+	set(THREADS_PREFER_PTHREAD_FLAG ON)
+	find_package(Threads REQUIRED)
+endif()
 add_executable(07_recordVideoFromSessionFile_cpp main.cpp)
 target_link_libraries(07_recordVideoFromSessionFile_cpp PRIVATE cuvis::cpp)
+
+if (UNIX)
+	target_link_libraries(07_recordVideoFromSessionFile_cpp PRIVATE Threads::Threads)
+endif()
