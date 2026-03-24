@@ -166,7 +166,10 @@ int main(int argc, char* argv[])
             * Here is an overview of the most important attributes of *SaveArgs*:
             *    - `export_dir`: The directory to export the measurements to
             *    - `allow_overwrite`: Allow overwriting files in case of a name clash
-            *    - `allow_fragmentation`: Start a new *SessionFile* for each measurement / Allow only one measurement per *SessionFile*
+            *    - `merge_mode`: Controls behavior regarding *SessionFile* creation. Possible values:
+            *       - `Default`: Save measurements into a single *SessionFile*
+            *       - `Fragmentation`: Start a new *SessionFile* for each measurement / Allow only one measurement per *SessionFile*
+            *       - `Merge`: Save measurements into a single *SessionFile*, even if coming from different source files / sessions.
             *    - `allow_drop`: Allow the exporter to drop measurements if it cannot write to the disk fast enough
             *    - `allow_info_file`: Create an info file alongside the *SessionFile*. This file contains a list of all measurements in the *SessionFile* and also marks dropped measurements
             *    - `full_export`: Include the hyperspectral cube when saving to disk. This is **FALSE** by default! *Please note:* The cube can **always be recomputed** on demand from the data stored in the *SessionFile*. Saving the cube can make sense to speed up or allow access to cube data on systems with low or insufficient processing power. It does significantly increase the size of the *SessionFiles*, usually roughly 2x. Additionally, if the cube is included, the processing mode (RAW, Reflectance, ...) is preserved.
