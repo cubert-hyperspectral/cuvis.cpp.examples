@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.16.0)
+project(Example_5_Record_Video_cpp)
+list(APPEND CMAKE_MODULE_PATH
+  "${CMAKE_CURRENT_LIST_DIR}/../cuvis.cpp/")
+find_package(CuvisCpp 3.5 REQUIRED)
+if (UNIX)
+	set(THREADS_PREFER_PTHREAD_FLAG ON)
+	find_package(Threads REQUIRED)
+endif()
+add_executable(Example_5_Record_Video_cpp main.cpp)
+target_link_libraries(Example_5_Record_Video_cpp PRIVATE cuvis::cpp)
+
+if (UNIX)
+	target_link_libraries(Example_5_Record_Video_cpp PRIVATE Threads::Threads)
+endif()
