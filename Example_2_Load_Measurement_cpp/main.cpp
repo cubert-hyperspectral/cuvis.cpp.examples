@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
         *   - *Measurement* to access the SessionFiles data and meta-data
         *
         * Prerequisites to running this example:
-        *   - Have a recorded measurement in *SessionFile* format (.cu3s) *or* downloaded the provided [demo data](https://drive.google.com/drive/folders/1Cjb0v_a2p1cCmhKH8w2OuRtnhXCJGz61?usp=sharing)
+        *   - Have a recorded measurement in *SessionFile* format (.cu3s) *or* downloaded the provided [demo data](https://cloud.cubert-gmbh.de/s/SDKSampleData)
         *   - Have the Cuvis SDK installed
         *
         * Run properties
@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
         char* const userSettingsDir = argv[1];
         char* const sessionLoc = argv[2];
 
-        std::cout << "Example 01 load measurement cpp " << std::endl;
+        std::cout << "Example 02 load measurement cpp " << std::endl;
         std::cout << "User Settings Dir: " << userSettingsDir << std::endl;
         std::cout << "sessionfile (.cu3s): " << sessionLoc << std::endl;
 

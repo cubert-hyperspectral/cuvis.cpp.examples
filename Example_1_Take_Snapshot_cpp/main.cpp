@@ -20,8 +20,8 @@ int main(int argc, char* argv[])
         *   - *CubeExporter* for saving measurements
         *
         * Prerequisites to running this example:
-        *   - Have a camera connected *or* downloaded the provided [demo data](https://drive.google.com/drive/folders/1Cjb0v_a2p1cCmhKH8w2OuRtnhXCJGz61?usp=sharing)
-        *   - Have the camera calibration file (*SN*.cu3c) ready *or* use the [demo data](https://drive.google.com/drive/folders/1Cjb0v_a2p1cCmhKH8w2OuRtnhXCJGz61?usp=sharing)
+        *   - Have a camera connected *or* downloaded the provided [demo data](https://cloud.cubert-gmbh.de/s/SDKSampleData)
+        *   - Have the camera calibration file (*SN*.cu3c) ready *or* use the [demo data](https://cloud.cubert-gmbh.de/s/SDKSampleData)
         *   - Have the Cuvis SDK installed
         *
         * Run properties:
@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
         int exposure_ms = std::stoi(exposureString);
         int nrImages = std::stoi(nrImagesString);
 
-        std::cout << "Example 05 record single image " << std::endl;
+        std::cout << "Example 01 record single image " << std::endl;
         std::cout << "User Settings Dir: " << userSettingsDir << std::endl;
         std::cout << "Factory Dir or .cu3c file: " << factoryDir.string() << std::endl;
         std::cout << "Recording Dir: " << recDir << std::endl;

@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 
         int distance = std::stoi(distanceString);
 
-        std::cout << "Example 04 change distance cpp " << std::endl;
+        std::cout << "Example 07 change distance cpp " << std::endl;
         std::cout << "User Settings Dir: " << userSettingsDir << std::endl;
         std::cout << "sessionfile (.cu3s): " << sessionLoc << std::endl;
         std::cout << "New Distance in mm: " << distance << std::endl;

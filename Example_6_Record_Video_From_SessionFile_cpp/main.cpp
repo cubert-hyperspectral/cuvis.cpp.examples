@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
         bool autoExp = std::stoi(autoExpString);
         double fps = std::stod(fpsString);
 
-        std::cout << "Example 07 video from SessionFile cpp " << std::endl;
+        std::cout << "Example 06 video from SessionFile cpp " << std::endl;
         std::cout << "User Settings Dir: " << userSettingsDir << std::endl;
         std::cout << "Sessionfile: " << sessionfile << std::endl;
         std::cout << "Recording Dir: " << recDir << std::endl;
