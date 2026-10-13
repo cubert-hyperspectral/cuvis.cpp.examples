@@ -34,8 +34,11 @@ Load measurement from disk and save to different file formats.
 ### Example_5_Record_Video
 Setup camera and record measurements via internal clock triggering, aka "video mode". In this example the `cuvis.Worker` is used to make use of multithreading (`cuvis_worker_create`).
 
-### Example_6_Record_Video_From_SessionFile
+### Example_6_Reference_Spectra
+Load measurement from disk and reprocess to reflectance with a target spectrum and with a white spectrum.
+
+### Example_7_Record_Video_From_SessionFile
 Set up a virtual camera based on a pre-recorded session file to simulate actual camera behaviour.
 
-### Example_7_Change_Distance
+### Example_8_Change_Distance
 Load measurement from disk and reprocess to a new given distance.
