@@ -114,7 +114,7 @@ int main(int argc, char* argv[])
         * Distance Calibration
         * Most Ultris cameras (except for relay variants) require distance calibration to achieve optimal results.
         *
-        * Please note: Distance calibration is not supported for R models (relay optics, e.g. Ultris XMR) and P models (pan sensor, e.g. Ultris X20P).
+        * Please note: Distance calibration is not supported for R models (relay optics, e.g. Ultris XMR). P models (pan sensor, e.g. Ultris X20P) only support it with a distance reference measurement, not with a distance in mm.
         *
         * Distance calibration is an operation that can be done with already recorded data and requires a distance reference measurement.
         * The reference should contain high-contrast data over the relevant spectral channels at the desired distance that data should be calibrated to.

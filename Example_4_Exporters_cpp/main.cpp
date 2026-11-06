@@ -67,6 +67,15 @@ int main(int argc, char* argv[])
         if (mesu.get_meta()->processing_mode == cuvis::processing_mode_t::Preview)
         {
             cuvis::ProcessingContext proc(sess);
+            // distance calibration (see Example 3) with the measurement itself, as the demo file has no distance reference
+            try
+            {
+                proc.set_reference(mesu, cuvis::reference_type_t::Reference_Distance);
+            }
+            catch (cuvis::cuvis_sdk_exception const& e) // R models (relay optics) do not support distance calibration
+            {
+                std::cout << "distance not set: " << e.what() << std::endl;
+            }
             cuvis::ProcessingArgs procArgs;
             procArgs.processing_mode = cuvis::processing_mode_t::Cube_Raw;
             proc.set_processingArgs(procArgs);
