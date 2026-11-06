@@ -91,30 +91,43 @@ int main(int argc, char* argv[])
 
         std::cout << "loading dark... " << std::endl;
         cuvis::SessionFile sessDark(darkLoc);
-        auto optDark = sessDark.get_mesu(0);
+        // use the reference stored in the file (e.g. the demo data), otherwise its first measurement
+        auto optDark = sessDark.get_ref(0, cuvis::reference_type_t::Reference_Dark);
+        if (!optDark.has_value())
+        {
+            optDark = sessDark.get_mesu(0);
+        }
         assert(optDark.has_value());
         cuvis::Measurement dark = optDark.value();
 
         std::cout << "loading white... " << std::endl;
         cuvis::SessionFile sessWhite(whiteLoc);
-        auto optWhite = sessWhite.get_mesu(0);
+        auto optWhite = sessWhite.get_ref(0, cuvis::reference_type_t::Reference_White);
+        if (!optWhite.has_value())
+        {
+            optWhite = sessWhite.get_mesu(0);
+        }
         assert(optWhite.has_value());
         cuvis::Measurement white = optWhite.value();
 
         /*
         * Distance Calibration
-        * Most Ultris cameras(except for Relay - variants) require distance calibration to achieve optimal results.
+        * Most Ultris cameras (except for relay variants) require distance calibration to achieve optimal results.
         *
-        * ** Please note : **The provided default demo dataset was recorded with a relay - equipped camera(Ultris XM with relay optics).Thus this step is not applicable to this dataset.
+        * Please note: Distance calibration is not supported for R models (relay optics, e.g. Ultris XMR) and P models (pan sensor, e.g. Ultris X20P).
         *
         * Distance calibration is an operation that can be done with already recorded data and requires a distance reference measurement.
-        * The reference should contain high - contrast data over the relevant spectral channels at the desired distance that data should be calibrated to.
+        * The reference should contain high-contrast data over the relevant spectral channels at the desired distance that data should be calibrated to.
         *
-        * In this example, the measurement itself will be used as the distance reference.If the target object is suitable(high contrast, non - repeating patterns), this can suffice for good results.
+        * In this example, the distance reference stored in the distance file is used, otherwise its first measurement. If the target object is suitable (high contrast, non-repeating patterns), the measurement itself can suffice for good results.
         */
         std::cout << "loading distance... " << std::endl;
         cuvis::SessionFile sessDistance(distanceLoc);
-        auto optDistance = sessDistance.get_mesu(0);
+        auto optDistance = sessDistance.get_ref(0, cuvis::reference_type_t::Reference_Distance);
+        if (!optDistance.has_value())
+        {
+            optDistance = sessDistance.get_mesu(0);
+        }
         assert(optDistance.has_value());
         cuvis::Measurement distance = optDistance.value();
 
@@ -149,6 +162,7 @@ int main(int argc, char* argv[])
         saveArgs.allow_overwrite = true;
         saveArgs.allow_session_file = true;
         saveArgs.allow_info_file = false;
+        saveArgs.full_export = false; // do not include the cube in the export
 
         std::map<std::string, cuvis::processing_mode_t> target_modes = {
             {"Raw", cuvis::processing_mode_t::Cube_Raw},

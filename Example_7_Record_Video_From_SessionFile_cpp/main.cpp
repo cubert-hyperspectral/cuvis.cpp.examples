@@ -108,6 +108,7 @@ int main(int argc, char* argv[])
         sargs.operation_mode = OperationMode_Internal;
         sargs.allow_overwrite = true;
         sargs.allow_session_file = true;
+        sargs.full_export = false; // do not include the cube in the export
         sargs.export_dir = std::filesystem::path(recDir);
 
         std::cout << "Writing Files to: " << sargs.export_dir << std::endl;

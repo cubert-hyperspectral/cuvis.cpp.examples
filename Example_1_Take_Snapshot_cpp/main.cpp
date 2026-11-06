@@ -107,6 +107,7 @@ int main(int argc, char* argv[])
         saveArgs.allow_overwrite = true;
         saveArgs.export_dir = recDir;
         saveArgs.allow_session_file = true;
+        saveArgs.full_export = false; // do not include the cube in the export
 
         // Setup the Cube Exporter for saving the measurements to disk in the SessionFile format(.cu3s)
         cuvis::CubeExporter exporter(saveArgs);

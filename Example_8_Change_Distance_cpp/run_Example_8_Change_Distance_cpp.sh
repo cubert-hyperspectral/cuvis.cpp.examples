@@ -1,25 +1,25 @@
 #!/bin/bash
 
 # Usage: 
-# example app path 				[string] E.g. ./04_changeDistance_cpp.exe for windows or ./04_changeDistance_cpp for linux
-# user settings directory 		[string] Default is ../../../sample_data/set_examples/settings
-# sessionfile (.cu3s)			[string] Default is ../../../sample_data/set_examples/set0_single/single.cu3s
+# example app path 				[string] E.g. ./Example_8_Change_Distance_cpp.exe for windows or ./Example_8_Change_Distance_cpp for linux
+# user settings directory 		[string] Default is ../settings
+# sessionfile (.cu3s)			[string] Default is ../SDK_Training_Example_Data/single_raw.cu3s (demo data, Ultris X20)
 # new distance 					[int   ] distance reference in mm
-# name of export directory 		[string] The name of your output folder realtive to the example app path
+# name of export directory 		[string] The name of your output folder relative to the example app path
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     ##########LINUX##########
-	./04_changeDistance_cpp												\
-	"../../../sample_data/set_examples/settings"						\
-	"../../../sample_data/set_examples/set0_single/single.cu3s" 		\
+	./Example_8_Change_Distance_cpp												\
+	"../settings"						\
+	"../SDK_Training_Example_Data/single_raw.cu3s" 		\
 	1000																\
 	"export"															\
 	
 else
     ##########WINDOWS##########
-	./04_changeDistance_cpp.exe 										\
-	"../../../sample_data/set_examples/settings"						\
-	"../../../sample_data/set_examples/set0_single/single.cu3s" 		\
+	./Example_8_Change_Distance_cpp.exe 										\
+	"../settings"						\
+	"../SDK_Training_Example_Data/single_raw.cu3s" 		\
 	1000																\
 	"export"															\
 	

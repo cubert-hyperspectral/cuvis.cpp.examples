@@ -101,6 +101,16 @@ int main(int argc, char* argv[])
             }
         }
 
+        // SessionFiles are saved without the cube by default (Preview mode): compute it now (ProcessingContext, see Example 3)
+        if (mesu.get_meta()->processing_mode == cuvis::processing_mode_t::Preview)
+        {
+            cuvis::ProcessingContext proc(sess);
+            cuvis::ProcessingArgs procArgs;
+            procArgs.processing_mode = cuvis::processing_mode_t::Cube_Raw;
+            proc.set_processingArgs(procArgs);
+            proc.apply(mesu);
+        }
+
         assert(
             mesu.get_meta()->processing_mode == Cube_Raw &&
             "This example requires raw mode");

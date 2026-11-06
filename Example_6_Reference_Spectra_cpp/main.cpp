@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
         *
         * Prerequisites to running this example:
         *   - Have a recorded measurement in *SessionFile* format (.cu3s) that contains Dark and White references *or* downloaded the provided [demo data](https://cloud.cubert-gmbh.de/s/SDKSampleData)
-        *   - Have the Cuvis SDK 3.6 or newer installed
+        *   - Have the Cuvis SDK 3.6.1 or newer installed
         *
         *   Run properties
         *   - "path/to/settings" "path/to/measurement/single.cu3s" "OutputFolderName"
@@ -71,6 +71,8 @@ int main(int argc, char* argv[])
 
         /*
         * Process a fresh Measurement from the SessionFile with the current references and export it.
+        * The exported SessionFile contains the spectrum: a ProcessingContext created from it (with load_references, the default) has it as explicit reference,
+        * and the Measurement as implicit reference. To process it without the spectrum, call both `ProcessingContext::clear_reference` and `Measurement::clear_implicit_reference`.
         */
         auto process_and_export = [&](std::string const& name) {
             auto optMesu = sess.get_mesu(0);
