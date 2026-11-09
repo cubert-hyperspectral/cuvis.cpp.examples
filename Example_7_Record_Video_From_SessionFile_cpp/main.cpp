@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
         bool autoExp = std::stoi(autoExpString);
         double fps = std::stod(fpsString);
 
-        std::cout << "Example 06 video from SessionFile cpp " << std::endl;
+        std::cout << "Example 07 video from SessionFile cpp " << std::endl;
         std::cout << "User Settings Dir: " << userSettingsDir << std::endl;
         std::cout << "Sessionfile: " << sessionfile << std::endl;
         std::cout << "Recording Dir: " << recDir << std::endl;
@@ -108,6 +108,7 @@ int main(int argc, char* argv[])
         sargs.operation_mode = OperationMode_Internal;
         sargs.allow_overwrite = true;
         sargs.allow_session_file = true;
+        sargs.full_export = false; // do not include the cube in the export
         sargs.export_dir = std::filesystem::path(recDir);
 
         std::cout << "Writing Files to: " << sargs.export_dir << std::endl;

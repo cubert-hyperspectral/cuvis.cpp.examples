@@ -14,7 +14,7 @@ Then, you need to install the Cuvis C SDK (see [here](https://cloud.cubert-gmbh.
 Then use CMake (see https://cmake.org/download/) to configure and generate the Visual Studio project. You can configure either base directory (including all directoreis) or a single example using its respective directory.
 CMake will require you to locate the Cuvis C SDK (this should be found automatically, if the Cuvis C SDK is properly installed). 
 
-For running some of the examples, you have to use sample data (provided [here](https://cloud.cubert-gmbh.de/s/SDKSampleData)).
+For running some of the examples, you have to use sample data (provided [here](https://cloud.cubert-gmbh.de/s/SDKSampleData)). Place the sample data in the `SDK_Training_Example_Data/` directory at the root of this repository.
 
 ## Inventory
 
@@ -34,8 +34,11 @@ Load measurement from disk and save to different file formats.
 ### Example_5_Record_Video
 Setup camera and record measurements via internal clock triggering, aka "video mode". In this example the `cuvis.Worker` is used to make use of multithreading (`cuvis_worker_create`).
 
-### Example_6_Record_Video_From_SessionFile
+### Example_6_Reference_Spectra
+Load measurement from disk and reprocess to reflectance with a target spectrum and with a white spectrum.
+
+### Example_7_Record_Video_From_SessionFile
 Set up a virtual camera based on a pre-recorded session file to simulate actual camera behaviour.
 
-### Example_7_Change_Distance
+### Example_8_Change_Distance
 Load measurement from disk and reprocess to a new given distance.

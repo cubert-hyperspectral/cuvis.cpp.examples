@@ -25,13 +25,14 @@ int main(int argc, char* argv[])
         *   - Have the Cuvis SDK installed
         *
         * Run properties
-        *   - "path/to/settings" path/to/measurement/single.cu3s" "path/to/user/plugin/file.xml" "OutputFolderName"
+        *   - "path/to/settings" "path/to/measurement/file.cu3s" measurementIndex "path/to/user/plugin/file.xml" "OutputFolderName"
         */
-        if (argc != 5)
+        if (argc != 6)
         {
             std::cout << std::endl << "Too few Arguments! Please provide:" << std::endl;
             std::cout << "user settings directory" << std::endl;
             std::cout << "sessionfile (.cu3s)" << std::endl;
+            std::cout << "measurement index" << std::endl;
             std::cout << "user plugin file (.xml)" << std::endl;
             std::cout << "Name of export directory" << std::endl;
 
@@ -39,12 +40,14 @@ int main(int argc, char* argv[])
         }
         char* const userSettingsDir = argv[1];
         char* const sessionLoc = argv[2];
-        char* const pluginLoc = argv[3];
-        char* const exportDir = argv[4];
+        int const mesuIndex = std::stoi(argv[3]);
+        char* const pluginLoc = argv[4];
+        char* const exportDir = argv[5];
 
         std::cout << "Example 04 export measurement" << std::endl;
         std::cout << "User Settings Dir: " << userSettingsDir << std::endl;
         std::cout << "sessionfile (.cu3s): " << sessionLoc << std::endl;
+        std::cout << "measurement index: " << mesuIndex << std::endl;
         std::cout << "user plugin file (.xml): " << pluginLoc << std::endl;
         std::cout << "Export Dir: " << exportDir << std::endl;
 
@@ -56,11 +59,28 @@ int main(int argc, char* argv[])
         cuvis::SessionFile sess(sessionLoc);
 
         std::cout << "loading measurement... " << std::endl;
-        auto optmesu = sess.get_mesu(0);
+        auto optmesu = sess.get_mesu(mesuIndex);
         assert(optmesu.has_value());
         cuvis::Measurement mesu = optmesu.value();
 
-        assert(mesu.get_meta()->processing_mode != cuvis::processing_mode_t::Preview);
+        // the exporters need a cube: SessionFiles are saved without it by default (Preview mode), so compute it now
+        if (mesu.get_meta()->processing_mode == cuvis::processing_mode_t::Preview)
+        {
+            cuvis::ProcessingContext proc(sess);
+            // distance calibration (see Example 3) with the measurement itself, as the demo file has no distance reference
+            try
+            {
+                proc.set_reference(mesu, cuvis::reference_type_t::Reference_Distance);
+            }
+            catch (cuvis::cuvis_sdk_exception const& e) // R models (relay optics) do not support distance calibration
+            {
+                std::cout << "distance not set: " << e.what() << std::endl;
+            }
+            cuvis::ProcessingArgs procArgs;
+            procArgs.processing_mode = cuvis::processing_mode_t::Cube_Raw;
+            proc.set_processingArgs(procArgs);
+            proc.apply(mesu);
+        }
 
         {
             /*
@@ -156,6 +176,31 @@ int main(int argc, char* argv[])
 
             cuvis::ViewExporter exporter(args);
             exporter.apply(mesu);
+
+            /*
+            * View Exporter - Pansharpening
+            * Only for cameras with a panchromatic sensor (P models, e.g. Ultris X20P).
+            * Pansharpening fuses the cube (high spectral resolution) with the pan image (high spatial resolution).
+            * It is set in the pansharpening settings of any exporter. With the *ViewExporter* it is applied after rendering the view, which is fast.
+            *    - `pan_scale`: 0.0 = off, 1.0 = resolution of the pan image
+            *    - `pan_algorithm`: `CubertMacroPixel` works in all processing modes, `CubertPanRatio` needs Reflectance mode, `Noop` only upscales
+            *    - `pre_pan_sharpen_cube`: sharpen the whole cube before rendering (more accurate, much slower)
+            */
+            if (mesu.get_imdata()->count(CUVIS_MESU_PAN_KEY) > 0) // only with a pan image
+            {
+                std::cout << "Export pansharpened view to file" << std::endl;
+                char exportDirPansharpen[CUVIS_MAXBUF];
+                strcpy(exportDirPansharpen, exportDir);
+                strcat(exportDirPansharpen, "/pansharpened");
+                args.export_dir = exportDirPansharpen;
+                args.pansharpening_settings.pan_scale = 1.0;
+                args.pansharpening_settings.pan_interpolation_type = pan_sharpening_interpolation_type_Linear;
+                args.pansharpening_settings.pan_algorithm = pan_sharpening_algorithm_CubertMacroPixel;
+                args.pansharpening_settings.pre_pan_sharpen_cube = false;
+
+                cuvis::ViewExporter pansharpenExporter(args);
+                pansharpenExporter.apply(mesu);
+            }
         }
         {
             /*
@@ -183,6 +228,7 @@ int main(int argc, char* argv[])
             saveArgs.export_dir = exportDirView;
             saveArgs.allow_overwrite = true;
             saveArgs.allow_session_file = true;
+            saveArgs.full_export = false; // do not include the cube in the export
 
             cuvis::CubeExporter exporter(saveArgs);
             exporter.apply(mesu);
