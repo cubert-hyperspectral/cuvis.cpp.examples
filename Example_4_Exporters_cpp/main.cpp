@@ -228,7 +228,7 @@ int main(int argc, char* argv[])
             saveArgs.export_dir = exportDirView;
             saveArgs.allow_overwrite = true;
             saveArgs.allow_session_file = true;
-            saveArgs.full_export = false; // do not include the cube in the export
+            saveArgs.full_export = true; // include the processed cube in the export
 
             cuvis::CubeExporter exporter(saveArgs);
             exporter.apply(mesu);

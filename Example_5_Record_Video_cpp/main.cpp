@@ -131,7 +131,10 @@ int main(int argc, char* argv[])
 
         std::cout << "loading acquisition context..." << std::endl;
         cuvis::AcquisitionContext acq(calib);
-        CUVIS_SESSION_INFO sess = { "video", 0, 0 };
+        cuvis::SessionInfo sess;
+        sess.name = "video";
+        sess.session_no = 0;
+        sess.sequence_no = 0;
         acq.set_session_info(sess);
 
         std::cout << "prepare saving of measurements..." << std::endl;

@@ -99,7 +99,10 @@ int main(int argc, char* argv[])
         cuvis::AcquisitionContext acq(
             sess,
             true); // simulating = true --> use frames from sessionfile instead of real camera
-        CUVIS_SESSION_INFO sessinfo = { "video", 0, 0 };
+        cuvis::SessionInfo sessinfo;
+        sessinfo.name = "video";
+        sessinfo.session_no = 0;
+        sessinfo.sequence_no = 0;
         acq.set_session_info(sessinfo);
 
         std::cout << "prepare saving of measurements..." << std::endl;
