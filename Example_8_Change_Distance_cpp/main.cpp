@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 
         int distance = std::stoi(distanceString);
 
-        std::cout << "Example 07 change distance cpp " << std::endl;
+        std::cout << "Example 08 change distance cpp " << std::endl;
         std::cout << "User Settings Dir: " << userSettingsDir << std::endl;
         std::cout << "sessionfile (.cu3s): " << sessionLoc << std::endl;
         std::cout << "New Distance in mm: " << distance << std::endl;
@@ -84,22 +84,30 @@ int main(int argc, char* argv[])
         saveArgs.allow_overwrite = true;
         saveArgs.export_dir = exportDir;
         saveArgs.allow_session_file = true;
+        saveArgs.full_export = false; // do not include the cube in the export
 
         cuvis::CubeExporter exporter(saveArgs);
 
         /*
         * Distance Calibration
-        * Most Ultris cameras(except for Relay - variants) require distance calibration to achieve optimal results.
+        * Most Ultris cameras (except for relay variants) require distance calibration to achieve optimal results.
         *
-        * ** Please note : **The provided default demo dataset was recorded with a relay - equipped camera(Ultris XM with relay optics).Thus this step is not applicable to this dataset.
+        * Please note: Setting the distance in mm is not supported for R models (relay optics, e.g. Ultris XMR) and P models (pan sensor, e.g. Ultris X20P). P models support distance calibration with a distance reference measurement instead (see Example 3).
         *
         * Distance calibration is an operation that can be done with already recorded data and requires a distance reference measurement.
-        * The reference should contain high - contrast data over the relevant spectral channels at the desired distance that data should be calibrated to.
+        * The reference should contain high-contrast data over the relevant spectral channels at the desired distance that data should be calibrated to.
         *
-        * In this example, the measurement itself will be used as the distance reference.If the target object is suitable(high contrast, non - repeating patterns), this can suffice for good results.
+        * If the distance to the object is known, it can also be set directly in mm, without a distance reference measurement. This example does that.
         */
         std::cout << "setting distance..." << std::endl;
-        proc.calc_distance(distance);
+        try
+        {
+            proc.calc_distance(distance);
+        }
+        catch (cuvis::cuvis_sdk_exception const& e) // fails on R and P models, the example continues without it
+        {
+            std::cout << "distance not set: " << e.what() << std::endl;
+        }
 
         cuvis::ProcessingArgs procArgs = proc.get_processingArgs();
         procArgs.processing_mode = cuvis::processing_mode_t::Cube_Raw;

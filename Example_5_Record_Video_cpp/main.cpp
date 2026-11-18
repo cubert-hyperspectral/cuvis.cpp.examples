@@ -131,7 +131,10 @@ int main(int argc, char* argv[])
 
         std::cout << "loading acquisition context..." << std::endl;
         cuvis::AcquisitionContext acq(calib);
-        CUVIS_SESSION_INFO sess = { "video", 0, 0 };
+        cuvis::SessionInfo sess;
+        sess.name = "video";
+        sess.session_no = 0;
+        sess.sequence_no = 0;
         acq.set_session_info(sess);
 
         std::cout << "prepare saving of measurements..." << std::endl;
@@ -140,6 +143,7 @@ int main(int argc, char* argv[])
         sargs.operation_mode = OperationMode_Internal;
         sargs.allow_overwrite = true;
         sargs.allow_session_file = true;
+        sargs.full_export = false; // do not include the cube in the export
         sargs.export_dir = std::filesystem::path(recDir);
 
         std::cout << "Writing Files to: " << sargs.export_dir << std::endl;
