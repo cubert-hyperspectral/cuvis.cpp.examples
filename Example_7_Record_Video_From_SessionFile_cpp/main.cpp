@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
         bool autoExp = std::stoi(autoExpString);
         double fps = std::stod(fpsString);
 
-        std::cout << "Example 06 video from SessionFile cpp " << std::endl;
+        std::cout << "Example 07 video from SessionFile cpp " << std::endl;
         std::cout << "User Settings Dir: " << userSettingsDir << std::endl;
         std::cout << "Sessionfile: " << sessionfile << std::endl;
         std::cout << "Recording Dir: " << recDir << std::endl;
@@ -99,7 +99,10 @@ int main(int argc, char* argv[])
         cuvis::AcquisitionContext acq(
             sess,
             true); // simulating = true --> use frames from sessionfile instead of real camera
-        CUVIS_SESSION_INFO sessinfo = { "video", 0, 0 };
+        cuvis::SessionInfo sessinfo;
+        sessinfo.name = "video";
+        sessinfo.session_no = 0;
+        sessinfo.sequence_no = 0;
         acq.set_session_info(sessinfo);
 
         std::cout << "prepare saving of measurements..." << std::endl;
@@ -108,6 +111,7 @@ int main(int argc, char* argv[])
         sargs.operation_mode = OperationMode_Internal;
         sargs.allow_overwrite = true;
         sargs.allow_session_file = true;
+        sargs.full_export = false; // do not include the cube in the export
         sargs.export_dir = std::filesystem::path(recDir);
 
         std::cout << "Writing Files to: " << sargs.export_dir << std::endl;
